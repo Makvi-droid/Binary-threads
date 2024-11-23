@@ -1,0 +1,145 @@
+:root{
+    --font: 'Roboto', 'Titillium Web', 'Ubuntu', 'Work Sans', 'Roboto Mono';
+    --dark-color: #db9600;
+
+} 
+
+body{
+    background: #fcc347;
+}
+
+/*navbar start*/
+
+#logo{
+    height: 8vh;
+    width: 5vw;
+}
+
+.navbar .btn{
+    border-radius: 30px;
+    font-family: 'Montserrat', var(--font);
+    font-weight: 500;
+}
+
+#offcanvasWithBothOptions{
+    transition: 0.3s;
+}
+
+#signUpModal{
+    transition: 0.3s;
+}
+
+#search-bar{
+    border-radius: 30px;
+    border: 1px solid black;
+}
+
+#search-btn{
+    transition: 0.3s;
+    border-radius: 35px;
+}
+
+.form-btn{
+    gap: 1.6em;
+    position: relative;
+    right: 5em;
+}
+
+.form-btn .btn{
+    border-radius: 30px;
+    font-family: 'Montserrat', var(--font);
+    font-weight: 500;
+}
+
+#search-btn:hover{
+    background-color: var(--dark-color);
+}
+
+#cart{
+    font-family: 'Kanit', var(--font);
+    font-weight: bold;
+}
+
+#signUp-btn{
+    transition: 0.3s;
+}
+
+#cartBtn{
+    background-color: #db9600;
+    transition: 0.3s;
+}
+
+#cartBtn:hover{
+    background-color: #664b00;
+}
+
+.pagination{
+    position: relative;
+    top: 2em;
+}
+
+.nav-item .nav-link{
+    color: var(--dark-color);
+    font-family: 'Bebas Neue', var(--font);
+    font-size: 2em;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.nav-item .nav-link:hover{
+    color: #664b00;
+}
+
+.pagination a{
+    color: black;
+}
+.pagination a:hover{
+    color: black;
+}
+
+#product-h2{
+    color: aliceblue;
+}
+
+.navbar{
+    background-color: aliceblue;
+}
+
+/*navbar end*/
+
+/*about*/
+.img{
+    width: auto;
+    height: 28em;
+    position: relative;
+    top: 4em;
+    right: 8em;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+#abt-txt{
+    font-family: 'Bebas Neue', var(--font);
+}
+
+#abt2 h2, h3 {
+    font-weight: bold;
+}
+#abt2 p {
+    font-family: 'Montserrat', var(--font);
+    color: #555;
+}
+.bg-light {
+    background-color: #555 !important;
+}
+.blockquote {
+    font-style: italic;
+}
+.shadow-sm {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fab{
+    transition: 0.3s;
+}
+

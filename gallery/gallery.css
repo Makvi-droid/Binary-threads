@@ -1,0 +1,206 @@
+:root{
+    --font: 'Roboto', 'Titillium Web', 'Ubuntu', 'Work Sans', 'Roboto Mono';
+    --dark-color: #db9600;
+
+}
+
+body{
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('img/bg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}  
+
+#logo{
+    height: 8vh;
+    width: 5vw;
+}
+
+.navbar .btn{
+    border-radius: 30px;
+    font-family: 'Montserrat', var(--font);
+    font-weight: 500;
+}
+
+#offcanvasWithBothOptions{
+    transition: 0.3s;
+}
+
+#signUpModal{
+    transition: 0.3s;
+}
+
+#search-bar{
+    border-radius: 30px;
+    border: 1px solid black;
+}
+
+#search-btn{
+    transition: 0.3s;
+    border-radius: 35px;
+}
+
+.form-btn{
+    gap: 1.6em;
+    position: relative;
+    right: 5em;
+}
+
+.form-btn .btn{
+    border-radius: 30px;
+    font-family: 'Montserrat', var(--font);
+    font-weight: 500;
+}
+
+#search-btn:hover{
+    background-color: var(--dark-color);
+}
+
+#cart{
+    font-family: 'Kanit', var(--font);
+    font-weight: bold;
+}
+
+#signUp-btn{
+    transition: 0.3s;
+}
+
+#cartBtn{
+    background-color: #db9600;
+    transition: 0.3s;
+}
+
+#cartBtn:hover{
+    background-color: #664b00;
+}
+
+.pagination{
+    position: relative;
+    top: 2em;
+}
+
+.nav-item .nav-link{
+    color: var(--dark-color);
+    font-family: 'Bebas Neue', var(--font);
+    font-size: 2em;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.nav-item .nav-link:hover{
+    color: #664b00;
+}
+
+.pagination a{
+    color: black;
+}
+.pagination a:hover{
+    color: black;
+}
+
+#product-h2{
+    color: aliceblue;
+}
+
+.navbar{
+    background-color: aliceblue;
+}
+
+/*gallery*/
+
+/* holiday and trending style */
+.carousel-item img {
+    height: 400px; 
+    object-fit: cover;
+    border-radius: 20px;
+    cursor: pointer;
+}
+  
+.sale h2 {
+    font-family: 'Bebas Neue', var(--font);
+    font-size: 2rem;
+    color: whitesmoke;
+    letter-spacing: 1.5px;
+}
+  
+.sale p {
+    font-family: 'Montserrat', var(--font);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+
+
+
+/*products*/
+
+.products .show-more{
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: 0.2s;
+}
+
+.products .crochet-scarves{
+    position: relative;
+    top: 2em;
+}
+
+.products .show-more:hover{
+    background-color: var(--dark-color);
+    color: aliceblue;
+}
+
+.products h2{
+    color: aliceblue;
+    font-family: 'Bebas Neue', var(--font);
+    letter-spacing: 2px;
+    font-size: 3rem;
+}
+
+.products .card-img-top {
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    transition: 0.3s;
+}
+
+.product-card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    cursor: pointer;
+    transform: scale(1.08);
+}
+
+.modal .img-fluid{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.btn-link {
+    padding: 0;
+    text-decoration: underline;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}
+
+#logInModal{
+    transition: 0.3s;
+}
+
+.fab{
+    transition: 0.3s;
+}
+
+hr{
+    border: 10px solid whitesmoke;
+}
