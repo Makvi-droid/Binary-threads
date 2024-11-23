@@ -36,16 +36,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="../homepage/homepage.html">HOME</a>
+            <a class="nav-link" href="../homepage/homepage.php">HOME</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="gallery.html">GALLERY</a>
+            <a class="nav-link" href="gallery.php">GALLERY</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../about/about.html">ABOUT US</a>
+            <a class="nav-link" href="../about/about.php">ABOUT US</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../contact/contact.html">CONTACT</a>
+            <a class="nav-link" href="../contact/contact.php">CONTACT</a>
           </li>
         </ul>
         
@@ -783,7 +783,7 @@
                             <p><strong>Product:</strong> <span id="checkoutProductName"></span></p>
                             <p><strong>Price:</strong> PHP <span id="checkoutProductPrice"></span></p>
                             <p><strong>Shipping Fee:</strong> PHP 50<span id="shippingFee"></span></p>
-                            <p><strong>Total:</strong> PHP 50<span id="shippingFee" data-price="50"></span></p>
+                            <p><strong>Total:</strong> PHP 50<span id="totalFee" data-price="50"></span></p>
                         </div>
                     </form>
                 </div>

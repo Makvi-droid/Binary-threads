@@ -37,16 +37,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="../homepage/homepage.html">HOME</a>
+            <a class="nav-link" href="../homepage/homepage.php">HOME</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../gallery/gallery.html">GALLERY</a>
+            <a class="nav-link" href="../gallery/gallery.php">GALLERY</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">ABOUT US</a>
+            <a class="nav-link" href="about.php">ABOUT US</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../contact/contact.html">CONTACT</a>
+            <a class="nav-link" href="../contact/contact.php">CONTACT</a>
           </li>
         </ul>
            

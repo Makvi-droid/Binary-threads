@@ -36,16 +36,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../homepage/homepage.html">HOME</a>
+                        <a class="nav-link" href="../homepage/homepage.php">HOME</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../gallery/gallery.html">GALLERY</a>
+                        <a class="nav-link" href="../gallery/gallery.php">GALLERY</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../about/about.html">ABOUT US</a>
+                        <a class="nav-link" href="../about/about.php">ABOUT US</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">CONTACT</a>
+                        <a class="nav-link" href="contact.php">CONTACT</a>
                     </li>
                 </ul>
                 

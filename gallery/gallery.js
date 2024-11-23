@@ -109,10 +109,12 @@ $(document).ready(function(){
        
         const productName = $(this).data("name");
         const productPrice = $(this).data("price");
+        const totalprice = $(this).data("price") + 50;
     
        
         $("#checkoutProductName").text(productName);
         $("#checkoutProductPrice").text(productPrice.toFixed(2));
+        $("#totalFee").text(totalprice.toFixed(2));
     
         $("#checkoutModal").data("currentItem", $(this).closest("li"));
 
