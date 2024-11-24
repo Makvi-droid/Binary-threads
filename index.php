@@ -1,3 +1,67 @@
+<?php
+
+session_start(); 
+include 'database.php';
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-signUp'])) {
+    
+    $username = mysqli_real_escape_string($conn, $_POST['signup-username']);
+    $email = mysqli_real_escape_string($conn, $_POST['signup-email']);
+    $password = mysqli_real_escape_string($conn, $_POST['signup-password']);
+    $confirmPassword = mysqli_real_escape_string($conn, $_POST['signup-confirm-password']);
+
+    
+    if ($password !== $confirmPassword) {
+        echo "Passwords do not match.";
+    } else {
+        
+        $emailCheckQuery = "SELECT * FROM sign_up WHERE email = '$email'";
+        $emailCheckResult = mysqli_query($conn, $emailCheckQuery);
+
+        if (mysqli_num_rows($emailCheckResult) > 0) {
+           
+            echo "The email is already registered. Please use a different email.";
+        } else {
+            
+            $query = "INSERT INTO sign_up (username, email, password) VALUES ('$username', '$email', '$password')";
+
+            
+            if (mysqli_query($conn, $query)) {
+                echo "Sign-up successful!";
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+        }
+    }
+}
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-logIn'])) {
+  // Sanitize and retrieve input
+  $username = mysqli_real_escape_string($conn, $_POST['login-username']);
+  $password = mysqli_real_escape_string($conn, $_POST['login-password']);
+
+  // Query to validate login
+  $query = "SELECT * FROM sign_up WHERE username = '$username' AND password = '$password'";
+  $result = mysqli_query($conn, $query);
+
+  if (mysqli_num_rows($result) === 1) {
+      // Valid login
+      $_SESSION['username'] = $username; // Save the username in the session
+      header('Location: homepage/homepage.php'); // Redirect to the homepage
+      exit();
+  } else {
+      // Invalid login
+      $login_error = "Invalid username or password.";
+  }
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +84,17 @@
 <div class="container align-self-center">
     <div class="forms-container">
       <div class="signin-signup">
-        <form class="sign-in-form needs-validation" id="login-form" novalidate>
+        <form action="index.php" method="post" class="sign-in-form needs-validation" id="login-form"  novalidate>
           <h2 class="title">Log in</h2>
+
+          <?php if (isset($login_error)): ?>
+            <div class="alert alert-danger" role="alert">
+              <?php echo htmlspecialchars($login_error); ?>
+            </div>
+          <?php endif; ?>
+
+
+
           <div class="input-field">
             <i class="fas fa-user"></i>
             <input type="text" class="form-control" name="login-username" placeholder="Username" id="login-username" required />
@@ -32,11 +105,11 @@
             <input type="password" class="form-control" name="login-password" placeholder="Password" id="login-password" required />
             <div class="invalid-tooltip">Please enter your password.</div>
           </div>
-          <button class="btn btn-warning" type="submit">Log In</button>
+          <button class="btn btn-warning" name="btn-logIn" type="submit">Log In</button>
         </form>
   
         <!-- Sign Up -->
-        <form class="sign-up-form needs-validation" id="signup-form" novalidate>
+        <form action = "index.php" name="signUpForm" method="post" class="sign-up-form needs-validation" id="signup-form" novalidate>
           <h2 class="title">Sign up</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
@@ -63,6 +136,7 @@
         </form>
       </div>
     </div>
+
   
     <!-- Panels -->
     <div class="panels-container">

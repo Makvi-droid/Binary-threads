@@ -1,3 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('Location: ../index.php'); // Redirect to login page
+    exit();
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,12 +66,20 @@
                     data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i
                     class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></button>
                     <!--cart button-->
+
+                    <!--log-out button-->
+                    <button class="btn" name="logOut-btn" type="button" id="logOut-btn"><a href="logout.php"
+                    style="text-decoration: none; color: black;">Log out</a></button>
+                    <!--log-out button-->
+
+                    <!--profile-->
+                    <button type="button" class="btn btn-warning" id="profile-btn">
+                        <i class="fa-regular fa-user"></i>
+                        <span id="name"><?php echo htmlspecialchars($_SESSION['username']); ?></span></button>
+                    
             </div>
         </div>
 
-      
-
-       
 
     <!--add to cart btn start with modal-->
     </nav>
@@ -76,6 +96,18 @@
     </div>
 <!--navbar end-->
 
+<!--welcome message-->
+<div class="toast-container position-relative bottom-0 end-0 p-3">
+  <div class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" id="welcomeToast">
+    <div class="d-flex">
+      <div class="toast-body">
+        Welcome, <strong><?php echo htmlspecialchars($_SESSION['username']); ?>!</strong>
+      </div>
+      <button type="button" class="btn-close btn-close-black me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+<!--welcome message-->
 
 
 <!--carousel start-->

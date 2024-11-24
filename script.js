@@ -1,60 +1,103 @@
 $(document).ready(function () {
-  const $sign_in_btn = $('#sign-in-btn');
-  const $sign_up_btn = $('#sign-up-btn');
-  const $container = $('.container');
+   const $signInBtn = $("#sign-in-btn");
+   const $signUpBtn = $("#sign-up-btn");
+   const $container = $(".container");
+ 
+   $signUpBtn.on("click", function () {
+     $container.addClass("sign-up-mode");
+   });
+ 
+   $signInBtn.on("click", function () {
+     $container.removeClass("sign-up-mode");
+   });
+ });
 
-  $sign_up_btn.on('click', function () {
-    $container.addClass('sign-up-mode');
-  });
 
-  $sign_in_btn.on('click', function () {
-    $container.removeClass('sign-up-mode');
-  });
+ $(document).ready(function () {
+   
+   $('#login-form').on('submit', function (event) {
+       let isValid = true;
+
+    
+       const username = $('#login-username').val().trim();
+       if (username === '') {
+           $('#login-username').addClass('is-invalid');
+           isValid = false;
+       } else {
+           $('#login-username').removeClass('is-invalid');
+       }
+
+      
+       const password = $('#login-password').val().trim();
+       if (password === '') {
+           $('#login-password').addClass('is-invalid');
+           isValid = false;
+       } else {
+           $('#login-password').removeClass('is-invalid');
+       }
+
+      
+       if (!isValid) {
+           event.preventDefault();
+       }
+   });
+
+   
+   $('.form-control').on('focus', function () {
+       $(this).removeClass('is-invalid');
+   });
 });
 
 
-$(document).ready(function () {
-  
-  $('#login-form').on('submit', function (event) {
-    event.preventDefault();  
-    let form = this;
-    
-    
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    } else {
+ $(document).ready(function () {
+   $('#signup-form').on('submit', function (event) {
+       let isValid = true;
+
       
-      alert('Logging in...');
-    }
+       const username = $('#signup-username').val();
+       if (username.length < 4) {
+           $('#signup-username').addClass('is-invalid');
+           isValid = false;
+       } else {
+           $('#signup-username').removeClass('is-invalid');
+       }
 
-    form.classList.add('was-validated');
-  });
+     
+       const email = $('#signup-email').val();
+       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+       if (!emailRegex.test(email)) {
+           $('#signup-email').addClass('is-invalid');
+           isValid = false;
+       } else {
+           $('#signup-email').removeClass('is-invalid');
+       }
 
-  
-  $('#signup-form').on('submit', function (event) {
-    event.preventDefault();  
-    let form = this;
-    
-    let password = $('#signup-password').val();
-    let confirmPassword = $('#signup-confirm-password').val();
+       
+       const password = $('#signup-password').val();
+       if (password.length < 5) {
+           $('#signup-password').addClass('is-invalid');
+           isValid = false;
+       } else {
+           $('#signup-password').removeClass('is-invalid');
+       }
 
-    
-    if (password !== confirmPassword) {
-      $('#signup-confirm-password')[0].setCustomValidity('Passwords do not match');
       
-      event.stopPropagation();
-    } else {
-      $('#signup-confirm-password')[0].setCustomValidity('');
-    }
+       const confirmPassword = $('#signup-confirm-password').val();
+       if (password !== confirmPassword) {
+           $('#signup-confirm-password').addClass('is-invalid');
+           isValid = false;
+       } else {
+           $('#signup-confirm-password').removeClass('is-invalid');
+       }
 
-    
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    } else {
-      
-      alert('Signing up...');
-    }
+     
+       if (!isValid) {
+           event.preventDefault();
+       }
+   });
 
-    form.classList.add('was-validated');
-  });
+   $('.form-control').on('focus', function () {
+       $(this).removeClass('is-invalid');
+   });
 });
+ 

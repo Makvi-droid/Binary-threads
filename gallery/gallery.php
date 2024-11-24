@@ -55,6 +55,16 @@
           class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></button>
           <!--cart button-->
 
+          <!--log-out button-->
+          <button class="btn" name="logOut-btn" type="button" id="logOut-btn"><a href="logout.php"
+          style="text-decoration: none; color: black;">Log out</a></button>
+          <!--log-out button-->
+
+            <!--profile-->
+            <button type="button" class="btn btn-warning" id="profile-btn">
+            <i class="fa-regular fa-user"></i><span id="name">
+            <?php echo htmlspecialchars($_SESSION['username']); ?></span></button>
+
       </div>
     </div>
 

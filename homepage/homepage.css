@@ -34,9 +34,11 @@ body{
     border: 1px solid black;
 }
 
-#search-btn{
+#search-btn a{
     transition: 0.3s;
     border-radius: 35px;
+    text-decoration: none;
+    color: black;
 }
 
 .form-btn{
@@ -63,9 +65,29 @@ body{
     background-color: #664b00;
 }
 
-#logInModal{
+#logOut-btn{
+    position: relative;
+    left: 1.2em;
     transition: 0.3s;
+    border: 1px solid black;
 }
+
+#logOut-btn:hover{
+    background-color: #de9904;
+    color: white;
+}
+
+#profile-btn{
+    position: relative;
+    left: 2.4em;
+    width: 9em;
+}
+
+#name{
+    position: relative;
+    left: 1em;
+}
+
 
 .pagination{
     position: relative;
@@ -89,6 +111,18 @@ body{
 }
 .pagination a:hover{
     color: black;
+}
+
+.toast-body{
+    font-size: 1.5em;
+    font-family: 'Montserrat', var(--font);
+}
+
+.toast-container{
+    border-radius: 15px;
+    position: relative;
+    bottom: 40vh;
+    left: 40vw;
 }
 
 #product-h2{
