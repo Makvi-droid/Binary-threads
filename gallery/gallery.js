@@ -47,7 +47,6 @@ $(document).ready(function () {
 
 
 //add to cart
-
 const products = [
     { id: 1, name: "Black & White Beat", price: 179.99, img: "img/hat1.jpg", description: "Black & White Beat"},
     { id: 2, name: "Blissful Hues", price: 159.99, img: "img/hat2.jpg", description: "Blissful Hues"},

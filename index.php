@@ -28,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-signUp'])) {
 
             
             if (mysqli_query($conn, $query)) {
+
                 echo "Sign-up successful!";
+                
             } else {
                 echo "Error: " . mysqli_error($conn);
             }
@@ -49,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-logIn'])) {
 
   if (mysqli_num_rows($result) === 1) {
       // Valid login
-      $_SESSION['username'] = $username; // Save the username in the session
-      header('Location: homepage/homepage.php'); // Redirect to the homepage
+      $_SESSION['username'] = $username; 
+      header('Location: homepage/homepage.php');  
       exit();
   } else {
       // Invalid login

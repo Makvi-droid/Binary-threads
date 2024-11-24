@@ -60,9 +60,7 @@ body{
     font-weight: bold;
 }
 
-#signUp-btn{
-    transition: 0.3s;
-}
+
 
 #cartBtn{
     background-color: #db9600;
@@ -71,6 +69,29 @@ body{
 
 #cartBtn:hover{
     background-color: #664b00;
+}
+
+#logOut-btn{
+    position: relative;
+    left: 1.2em;
+    transition: 0.3s;
+    border: 1px solid black;
+}
+
+#logOut-btn:hover{
+    background-color: #de9904;
+    color: white;
+}
+
+#profile-btn{
+    position: relative;
+    left: 2.4em;
+    width: 9em;
+}
+
+#name{
+    position: relative;
+    left: 1em;
 }
 
 .pagination{
