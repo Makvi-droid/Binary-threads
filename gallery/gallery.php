@@ -1,6 +1,95 @@
 <?php
 session_start();
+include 'database.php';
+
+$products = array(
+  ["id" => 1, "name" => "Black & White Beat", "price" => 179.99, "img" => "img/hat1.jpg", "description" => "Black & White Beat"],
+  ["id" => 2, "name" => "Blissful Hues", "price" => 159.99, "img" => "img/hat2.jpg", "description" => "Blissful Hues"],
+  ["id" => 3, "name" => "Reggae Rhythm", "price" => 135.99, "img" => "img/hat3.jpg", "description" => "Reggae Rhythm"],
+  ["id" => 4, "name" => "Grape Smoke", "price" => 120.99, "img" => "img/hat4.jpg", "description" => "Grape Smoke"],
+  ["id" => 5, "name" => "Pacific Blues", "price" => 105.99, "img" => "img/hat5.jpg", "description" => "Pacific Blues"],
+  ["id" => 6, "name" => "Peachy Keen", "price" => 99.99, "img" => "img/hat6.jpg", "description" => "Peachy Keen"],
+  ["id" => 7, "name" => "Rustic Warmth", "price" => 199.99, "img" => "img/scarf1.jpg", "description" => "Rustic Warmth"],
+  ["id" => 8, "name" => "Blushed Mocha", "price" => 169.99, "img" => "img/scarf2.jpg", "description" => "Blushed Mocha"],
+  ["id" => 9, "name" => "Midnight Scarlet", "price" => 140.99, "img" => "img/scarf3.jpg", "description" => "Midnight Scarlet"],
+  ["id" => 10, "name" => "Ethereal Beige", "price" => 125.99, "img" => "img/scarf4.jpg", "description" => "Ethereal Beige"],
+  ["id" => 11, "name" => "Cloud Nine", "price" => 110.99, "img" => "img/scarf5.jpg", "description" => "Cloud Nine"],
+  ["id" => 12, "name" => "Dawn Fog", "price" => 99.99, "img" => "img/scarf6.jpg", "description" => "Dawn Fog"],
+  ["id" => 13, "name" => "Flora Flutter Top", "price" => 199.99, "img" => "img/clothes1.jpg", "description" => "Flora Flutter Top"],
+  ["id" => 14, "name" => "Whispering Willow Tee", "price" => 169.99, "img" => "img/clothes2.jpg", "description" => "Whispering Willow Tee"],
+  ["id" => 15, "name" => "Seashell Breeze Halter", "price" => 149.99, "img" => "img/clothes3.jpg", "description" => "Seashell Breeze Halter"],
+  ["id" => 16, "name" => "Autumn Thread Blooms", "price" => 179.99, "img" => "img/clothes4.jpg", "description" => "Autumn Thread Blooms"],
+  ["id" => 17, "name" => "Radiant Weave Top", "price" => 119.99, "img" => "img/clothes5.jpg", "description" => "Radiant Weave Top"],
+  ["id" => 18, "name" => "Pattern Pullover", "price" => 199.99, "img" => "img/clothes6.jpg", "description" => "Pattern Pullover"]
+);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
+  // Get form data
+  $fullname = trim($_POST['fullname'] ?? '');
+  $contact = trim($_POST['contact'] ?? '');
+  $address = trim($_POST['address'] ?? '');
+  $region = trim($_POST['region'] ?? '');
+  $zip = trim($_POST['zip'] ?? '');
+  $payment = trim($_POST['payment'] ?? '');
+  $productName = trim($_POST['product'] ?? '');
+  $totalAmount = floatval($_POST['totalAmount'] ?? 0);
+
+  // Validate required fields
+  if (empty($fullname) || empty($contact) || empty($address) || empty($region) || empty($zip) || empty($payment) || empty($productName) || $totalAmount <= 0) {
+      die("Error: All fields are required.");
+  }
+
+  // Find product details
+  $productDetails = null;
+  foreach ($products as $product) {
+      if (strcasecmp($product['name'], $productName) === 0) {
+          $productDetails = $product;
+          break;
+      }
+  }
+
+  if (!$productDetails) {
+      die("Error: Product not found.");
+  }
+
+  
+  $calculatedTotal = $productDetails['price'] + 50; 
+
+  
+  if (abs($calculatedTotal - $totalAmount) > 0.01) {
+      die("Error: Total amount mismatch. Calculated: $calculatedTotal, Submitted: $totalAmount");
+  }
+
+ 
+  try {
+      $stmt = $pdo->prepare("
+          INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      ");
+      $stmt->execute([
+          $fullname,
+          $contact,
+          $address,
+          $region,
+          $zip,
+          $payment,
+          $productDetails['name'],
+          $calculatedTotal
+      ]);
+
+      echo "Order placed successfully!";
+  } catch (PDOException $e) {
+      error_log("Database Error: " . $e->getMessage()); // Log error to server
+      die("Error: Could not complete the order.");
+  }
+}
+
+
 ?>
+  
+
+
+
 
 
 <!DOCTYPE html>
@@ -68,7 +157,7 @@ session_start();
             <!--profile-->
             
               <button type="button" class="btn btn-warning" id="profile-btn">
-              <i class="fa-regular fa-user"></i><span id="name">
+              <i class="fa-regular fa-user"></i><span id="profile">
               <?php echo htmlspecialchars($_SESSION['username']); ?></span></button>
             
 
@@ -739,18 +828,22 @@ session_start();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="checkoutForm">
+                    <form id="checkoutForm" action="gallery.php" method="post">
                         <div class="mb-3">
                             <label for="userName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="userName" required>
+                            <input type="text" class="form-control" id="userName" name="fullname" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact" class="form-label">Contact Number</label>
+                            <input type="text" class="form-control" id="contact" name="contact" required>
                         </div>
                         <div class="mb-3">
                             <label for="userAddress" class="form-label">Address</label>
-                            <textarea class="form-control" id="userAddress" rows="3" required></textarea>
+                            <textarea class="form-control" id="userAddress" rows="3" name="address" required></textarea>
                         </div>
                         <div class="col-md-3">
                           <label for="regions" class="form-label">Region</label>
-                          <select class="form-select" id="regions" required>
+                          <select class="form-select" id="regions" name="region" required>
                             <option selected disabled value="">Choose...</option>
                             <option>Region I - Ilocos</option>
                             <option>CAR - Cordillera Administrative Region</option>
@@ -773,40 +866,54 @@ session_start();
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <label for="validationCustom05" class="form-label">Zip</label>
-                          <input type="text" class="form-control" id="validationCustom05" required>
+                          <label for="zip" class="form-label">Zip</label>
+                          <input type="text" class="form-control" id="zip" name="zip" required>
                           <div class="invalid-feedback">
                             Please provide a valid zip.
                           </div>
                         </div>
-                        <div class="mb-3">
-                          <h5><strong>Payment Options:</strong> <span id="paymentOptions"></span></h5>
-                          <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment" id="cdo">
-                            <label class="form-check-label" for="cdo">
-                              Cash-on-delivery
-                            </label>
+                        <div class="payment-options">
+                            <div class="mb-3">
+                              <h5><strong>Payment Options:</strong> <span id="paymentOptions"></span></h5>
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment" id="cdo" name="cdo">
+                                <label class="form-check-label" for="cdo">
+                                  Cash-on-delivery
+                                </label>
+                              </div>
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment" id="online" name="online">
+                                <label class="form-check-label" for="online">
+                                  Online
+                                </label>
+                              </div>
+
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment" id="card" name="card">
+                                <label class="form-check-label" for="card">
+                                  Credit/Debit card
+                                </label>
+                              </div>
                           </div>
-                          
-                          <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment" id="online">
-                            <label class="form-check-label" for="online">
-                              Online
-                            </label>
-                          </div>
-                          
+
                         <div class="mb-3">
                             <h5><strong>Payment Details:</strong> <span id="paymentDetails"></span></h5>
                             <p><strong>Product:</strong> <span id="checkoutProductName"></span></p>
                             <p><strong>Price:</strong> PHP <span id="checkoutProductPrice"></span></p>
                             <p><strong>Shipping Fee:</strong> PHP 50<span id="shippingFee"></span></p>
-                            <p><strong>Total:</strong> PHP 50<span id="totalFee" data-price="50"></span></p>
+                            <p><strong>Total:</strong> PHP <span id="totalFee" name="totalFee" data-price="50"></span></p>
+
                         </div>
+
+                        <input type="hidden" name="product" id="productName">
+                        <input type="hidden" name="total" id="totalAmount">
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmCheckout">Confirm</button>
+                    <button type="submit" class="btn btn-primary" id="confirmCheckout" name="confirmCheckout">Confirm</button>
                 </div>
             </div>
         </div>

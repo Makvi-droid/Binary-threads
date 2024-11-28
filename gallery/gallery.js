@@ -114,6 +114,9 @@ $(document).ready(function(){
         $("#checkoutProductName").text(productName);
         $("#checkoutProductPrice").text(productPrice.toFixed(2));
         $("#totalFee").text(totalprice.toFixed(2));
+        
+        $("#productName").val(productName);
+        $("#totalAmount").val(totalprice);
     
         $("#checkoutModal").data("currentItem", $(this).closest("li"));
 
@@ -124,6 +127,8 @@ $(document).ready(function(){
     $("#confirmCheckout").on("click", function () {
         const userName = $("#userName").val();
         const userAddress = $("#userAddress").val();
+
+        
     
         if (userName && userAddress) {
             
@@ -138,7 +143,7 @@ $(document).ready(function(){
               
             $("#userName").val("");
             $("#userAddress").val("");
-         
+            
             $("#checkoutModal").modal("hide");
     
             alert(`Thank you, ${userName}! Your order for ${$("#checkoutProductName").text()} has been placed and will be shipped to ${userAddress}.`);
@@ -171,6 +176,6 @@ $(document).ready(function(){
     
 });
 
-$(document).ready(function () {
-   
-  });
+
+
+

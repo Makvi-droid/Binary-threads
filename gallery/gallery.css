@@ -122,7 +122,7 @@ body{
     width: 9em;
 }
 
-#name{
+#profile{
     position: relative;
     left: 1em;
 }
@@ -203,6 +203,10 @@ body{
     height: 300px;
     object-fit: cover;
     transition: 0.3s;
+}
+
+.form-label{
+    font-weight: bold;
 }
 
 .btn-link {
