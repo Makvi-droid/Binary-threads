@@ -25,14 +25,14 @@ $products = array(
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
   // Get form data
-  $fullname = trim($_POST['fullname'] ?? '');
-  $contact = trim($_POST['contact'] ?? '');
-  $address = trim($_POST['address'] ?? '');
-  $region = trim($_POST['region'] ?? '');
-  $zip = trim($_POST['zip'] ?? '');
-  $payment = trim($_POST['payment'] ?? '');
-  $productName = trim($_POST['product'] ?? '');
-  $totalAmount = floatval($_POST['totalAmount'] ?? 0);
+  $fullname = $_POST['fullname'];
+  $contact = $_POST['contact'];
+  $address = $_POST['address'];
+  $region = $_POST['region'];
+  $zip = $_POST['zip'];
+  $payment = $_POST['payment'];
+  $productName = $_POST['product'];
+  $totalAmount = $_POST['totalAmount'];
 
   // Validate required fields
   if (empty($fullname) || empty($contact) || empty($address) || empty($region) || empty($zip) || empty($payment) || empty($productName) || $totalAmount <= 0) {
@@ -186,36 +186,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
 
 
   <!--Holiday sale and trend section-->
-<div class="sales-bg">
-  <div class="container mt-5 sale">
-    <h2 class="text-center mb-4">Holiday Special</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="carousel slide" id="holidayCarousel" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="img/img1.jpg" class="d-block w-100" alt="Holiday Image 1">
+  <div class="sales-bg">
+    <div class="container mt-5 sale">
+      <h2 class="text-center mb-4">Holiday Special</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="carousel slide" id="holidayCarousel" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="img/img1.jpg" class="d-block w-100" alt="Holiday Image 1">
+              </div>
+              <div class="carousel-item">
+                <img src="img/img2.jpg" class="d-block w-100" alt="Holiday Image 2">
+              </div>
+              <div class="carousel-item">
+                <img src="img/img3.jpg" class="d-block w-100" alt="Holiday Image 3">
+              </div>
             </div>
-            <div class="carousel-item">
-              <img src="img/img2.jpg" class="d-block w-100" alt="Holiday Image 2">
-            </div>
-            <div class="carousel-item">
-              <img src="img/img3.jpg" class="d-block w-100" alt="Holiday Image 3">
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#holidayCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#holidayCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#holidayCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#holidayCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
       </div>
+      <p class="text-center mt-2">Don't miss our amazing holiday sale!</p>
     </div>
-    <p class="text-center mt-2">Don't miss our amazing holiday sale!</p>
-  </div>
 
   <!-- Trending Section -->
   <div class="ht-sale">
@@ -248,8 +248,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
       </div>
       <p class="text-center mt-2">Check out what's trending right now!</p>
     </div>
+    </div>
   </div>
-</div>
 
   
   

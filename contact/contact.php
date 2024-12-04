@@ -1,5 +1,71 @@
 <?php
+include ("../database.php");
 session_start();
+
+$username = $name = $email = $message = "";
+$usernameErr = $nameErr = $emailErr = $messageErr = "";
+
+// Checker
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Validate username
+    if (empty($_POST["contact_username"])) {
+        $usernameErr = "Username is required";
+    } else {
+        $username = test_input($_POST["contact_username"]);
+    }
+
+    // Validate name
+    if (empty($_POST["contact_name"])) {
+        $nameErr = "Name is required";
+    } else {
+        $name = test_input($_POST["contact_name"]);
+    }
+
+    // Validate email
+    if (empty($_POST["contact_email"])) {
+        $emailErr = "Email is required";
+    } else {
+        $email = test_input($_POST["contact_email"]);
+        // Check if email format is valid
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format";
+        }
+    }
+
+    // Validate message
+    if (empty($_POST["message"])) {
+        $messageErr = "Message is required";
+    } else {
+        $message = test_input($_POST["message"]);
+    }
+
+    // database instert, no errors
+    if (empty($usernameErr) && empty($nameErr) && empty($emailErr) && empty($messageErr)) {
+        
+        $username = mysqli_real_escape_string($conn, $username);
+        $name = mysqli_real_escape_string($conn, $name);
+        $email = mysqli_real_escape_string($conn, $email);
+        $message = mysqli_real_escape_string($conn, $message);
+
+        
+        $query = "INSERT INTO contact_us (contact_username, contact_name, contact_email, contact_message) 
+                  VALUES ('$username', '$name', '$email', '$message')";
+        
+        if (mysqli_query($conn, $query)) {
+            echo "<script>alert('Form submitted successfully!');</script>";
+        } else {
+            echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
+        }
+    }
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 ?>
 
 
@@ -60,22 +126,6 @@ session_start();
                 class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></button>
                 <!--cart button-->
 
-
-                <!--log-out button-->
-                <button class="btn" name="logOut-btn" type="button" id="logOut-btn"><a href="logout.php"
-                style="text-decoration: none; color: black;">Log out</a></button>
-                <!--log-out button-->
-
-
-                <!--profile-->
-                <button type="button" class="btn btn-warning" id="profile-btn">
-                    <i class="fa-regular fa-user"></i><span id="name">
-                    <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                </button>
-
-
-
-
             </div>
         </div>
 
@@ -104,7 +154,7 @@ session_start();
         <div class="row g-0">
             <!-- Contact Info and Form Column -->
             <div class="col-md-8 p-4">
-                <h2 class="text-center" id="contact-h2">Contact Us</h2>
+                <h2 class="text-center" id="contact-h2">CONTACT US</h2>
                 <p class="text-center mb-4">
                     <strong>Hi there,</strong><br><br>
                     We'd love to hear from you whether to suggest new products, give reviews, or just simply say hi. Here is where you can contact us:<br><br>
@@ -122,67 +172,30 @@ session_start();
                 </p>
 
                 <!-- Contact Form -->
-                <form id="contactForm" class="needs-validation" novalidate>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
-                        <div class="invalid-feedback">Please enter your username.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                        <div class="invalid-feedback">Please enter your name.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                        <div class="invalid-feedback">Please enter a valid email.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                        <div class="invalid-feedback">Please enter a message.</div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
-                </form>
-                
-                <!-- Confirmation Modal -->
-                <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmModalLabel">Confirm Submission of Contact Form?</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure you want to submit the contact form?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="confirmSubmit">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Success Modal -->
-                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="successModalLabel">Form Successfully Sent</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Your form has been successfully submitted. Thank you for your message.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <form method="post" novalidate>
+    <div class="mb-3">
+        <label for="contact_username" class="form-label">Username</label>
+        <input type="text" class="form-control <?php echo ($usernameErr) ? 'is-invalid' : ''; ?>" id="contact_username" name="contact_username" value="<?php echo $username; ?>" required>
+        <div class="invalid-feedback"><?php echo $usernameErr; ?></div>
+    </div>
+    <div class="mb-3">
+        <label for="contact_name" class="form-label">Name</label>
+        <input type="text" class="form-control <?php echo ($nameErr) ? 'is-invalid' : ''; ?>" id="contact_name" name="contact_name" value="<?php echo $name; ?>" required>
+        <div class="invalid-feedback"><?php echo $nameErr; ?></div>
+    </div>
+    <div class="mb-3">
+        <label for="contact_email" class="form-label">Email</label>
+        <input type="email" class="form-control <?php echo ($emailErr) ? 'is-invalid' : ''; ?>" id="contact_email" name="contact_email" value="<?php echo $email; ?>" required>
+        <div class="invalid-feedback"><?php echo $emailErr; ?></div>
+    </div>
+    <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control <?php echo ($messageErr) ? 'is-invalid' : ''; ?>" id="message" name="message" rows="4" required><?php echo $message; ?></textarea>
+        <div class="invalid-feedback"><?php echo $messageErr; ?></div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100" name="submit">Submit</button>
+    
+</form>
             </div>
 
             <!-- Image Column -->
@@ -256,7 +269,10 @@ session_start();
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js"
         integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
 
-    <script src="contact.js"></script>
+    <!--<script src="contact.js"></script>-->
 </body>
 
 </html>
+?>
+
+
