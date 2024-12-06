@@ -90,7 +90,7 @@ function test_input($data) {
 <!--navbar start-->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <img src="img/logo3.png" class="img-fluid" alt="..." id="logo">
+            <img src="img/logo3.svg" class="img-fluid" alt="..." id="logo">
             <nav class="navbar bg-body-tertiary">
                 <div class="container-fluid">
                     <form class="d-flex" role="search">
