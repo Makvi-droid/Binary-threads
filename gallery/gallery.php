@@ -2,28 +2,27 @@
 session_start();
 include 'database.php';
 
-if (isset($_POST['confirmCheckout'])) {
-    // Retrieve and sanitize form data
-    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
-    $contact = mysqli_real_escape_string($conn, $_POST['contact']);
-    $address = mysqli_real_escape_string($conn, $_POST['address']);
-    $region = mysqli_real_escape_string($conn, $_POST['region']);
-    $zip = mysqli_real_escape_string($conn, $_POST['zip']);
-    $payment = mysqli_real_escape_string($conn, $_POST['payment']);
-    $product = "NULL";
-    $total = "NULL";
 
-    // Insert data into your table
-    $sql = "INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total) 
-            VALUES ('$fullname', '$contact', '$address', '$region', '$zip', '$payment', '$product', '$total')";
 
-    if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Order placed successfully!'); window.location.href = 'gallery.php';</script>";
-    } else {
-        echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location.href = 'gallery.php';</script>";
-    }
+if (isset($_POST["confirmCheckout"])) {
+  $fullname = mysqli_real_escape_string($conn, $_POST["fullname"]);
+  $contact = mysqli_real_escape_string($conn, $_POST["contact"]);
+  $address = mysqli_real_escape_string($conn, $_POST["address"]);
+  $region = mysqli_real_escape_string($conn, $_POST["region"]);
+  $zip = mysqli_real_escape_string($conn, $_POST["zip"]);
+  $payment = mysqli_real_escape_string($conn, $_POST["payment"]);
+
+  $query = "INSERT INTO `check_out` (`id`, `fullname`, `contact`, `address`, `region`, `zip`, `payment`, `product`, `total`) 
+            VALUES (NULL, '$fullname', '$contact', '$address', '$region', '$zip','$payment', NULL, NULL)";
+  mysqli_query($conn, $query);
+ 
 }
+
 ?>
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -757,12 +756,13 @@ if (isset($_POST['confirmCheckout'])) {
       <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+            <form id="checkoutForm"  method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="checkoutForm" action="gallery.php" method="post">
+                
                         <div class="mb-3">
                             <label for="userName" class="form-label">Full Name</label>
                             <input type="text" class="form-control" id="userName" name="fullname" required>
@@ -777,30 +777,31 @@ if (isset($_POST['confirmCheckout'])) {
                         </div>
                         <div class="col-md-3">
                           <label for="regions" class="form-label">Region</label>
-                          <select class="form-select" id="regions" name="region" required>
+                          <select class="form-select" name="region" required>
                             <option selected disabled value="">Choose...</option>
-                            <option>Region I - Ilocos</option>
-                            <option>CAR - Cordillera Administrative Region</option>
-                            <option>Region II - Cagayan Valley</option>
-                            <option>NCR - National Capital Region</option>
-                            <option>Region IV-A - Calabarzon</option>
-                            <option>Region IV-B - MIMAROPA</option>
-                            <option>Region V - Bicol</option>
-                            <option>Region VI - Western Visayas</option>
-                            <option>Region VII - Central Visayas</option>
-                            <option>Region VIII - Eastern Visayas</option>
-                            <option>Region IX - Zamboanga Peninsula</option>
-                            <option>Region X - Northern Mindanao</option>
-                            <option>Region XII - SOCCSKSARGEN</option>
-                            <option>Region XIII - Caraga</option>
-                            <option>BARMM - Bangsamoro Autonomous Region in Muslim Mindanao</option>
+                            <option value="region_1">Region I - Ilocos</option>
+                            <option value="region_2">Region II - Cagayan Valley</option>
+                            <option value="region_3">Region III - Central Luzon</option>
+                            <option value="region_iv-a">Region IV-A - Calabarzon</option>
+                            <option value="region_iv-b">Region IV-B - MIMAROPA</option>
+                            <option value="region_v">Region V - Bicol</option>
+                            <option value="region_vi">Region VI - Western Visayas</option>
+                            <option value="region_vii">Region VII - Central Visayas</option>
+                            <option value="region_viii">Region VIII - Eastern Visayas</option>
+                            <option value="region_ix">Region IX - Zamboanga Peninsula</option>
+                            <option value="region_x">Region X - Northern Mindanao</option>
+                            <option value="region_xii">Region XII - SOCCSKSARGEN</option>
+                            <option value="region_xii">Region XII - Caraga</option>
+                            <option value="ncr">NCR - National Capital Region</option>
+                            <option value="car">CAR - Cordillera Administrative Region</option>
+                            <option value="region_barmm">BARMM - Bangsamoro Autonomous Region in Muslim Mindanao</option>
                           </select>
                           <div class="invalid-feedback">
                             Please select a valid region.
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <label for="zip" class="form-label">Zip</label>
+                          <label for="validationCustom05" class="form-label">Zip</label>
                           <input type="text" class="form-control" id="zip" name="zip" required>
                           <div class="invalid-feedback">
                             Please provide a valid zip.
@@ -811,21 +812,21 @@ if (isset($_POST['confirmCheckout'])) {
                               <h5><strong>Payment Options:</strong> <span id="paymentOptions"></span></h5>
                               
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="cdo">
+                                <input class="form-check-input" type="radio" name="payment" id="cdo" name="cdo">
                                 <label class="form-check-label" for="cdo">
                                   Cash-on-delivery
                                 </label>
                               </div>
                               
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="online">
+                                <input class="form-check-input" type="radio" name="payment" id="online" name="online">
                                 <label class="form-check-label" for="online">
                                   Online
                                 </label>
                               </div>
 
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="card">
+                                <input class="form-check-input" type="radio" name="payment" id="card" name="card">
                                 <label class="form-check-label" for="card">
                                   Credit/Debit card
                                 </label>
@@ -843,12 +844,13 @@ if (isset($_POST['confirmCheckout'])) {
 
                         <input type="hidden" name="product" id="productName">
                         <input type="hidden" name="total" id="totalAmount">
-                    </form>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="confirmCheckout" name="confirmCheckout">Confirm</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
