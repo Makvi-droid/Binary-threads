@@ -2,9 +2,8 @@
 session_start();
 include 'database.php';
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
-    // Sanitize and retrieve form data
+if (isset($_POST['confirmCheckout'])) {
+    // Retrieve and sanitize form data
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
     $contact = mysqli_real_escape_string($conn, $_POST['contact']);
     $address = mysqli_real_escape_string($conn, $_POST['address']);
@@ -14,22 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
     $product = "NULL";
     $total = "NULL";
 
-    // SQL query to insert the data into the "orders" table
-    $sql = "INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total)
+    // Insert data into your table
+    $sql = "INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total) 
             VALUES ('$fullname', '$contact', '$address', '$region', '$zip', '$payment', '$product', '$total')";
 
-    // Execute the query and check for success
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Order placed successfully!'); window.location.href='gallery.php';</script>";
+        echo "<script>alert('Order placed successfully!'); window.location.href = 'gallery.php';</script>";
     } else {
-        echo "<script>alert('Error: Unable to place order. Please try again.');</script>";
+        echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location.href = 'gallery.php';</script>";
     }
 }
 ?>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -817,21 +811,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
                               <h5><strong>Payment Options:</strong> <span id="paymentOptions"></span></h5>
                               
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="cdo" name="cdo">
+                                <input class="form-check-input" type="radio" name="payment" id="cdo">
                                 <label class="form-check-label" for="cdo">
                                   Cash-on-delivery
                                 </label>
                               </div>
                               
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="online" name="online">
+                                <input class="form-check-input" type="radio" name="payment" id="online">
                                 <label class="form-check-label" for="online">
                                   Online
                                 </label>
                               </div>
 
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="card" name="card">
+                                <input class="form-check-input" type="radio" name="payment" id="card">
                                 <label class="form-check-label" for="card">
                                   Credit/Debit card
                                 </label>

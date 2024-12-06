@@ -23,24 +23,37 @@ include "../database.php";
 <body>
 
 <div class="container">
-<div class="col-lg-4">
-  <h2>Contact Us Admin Page</h2>
-  <form action="" name="form" method="post" >
-    <div class="form-group">
-      <label for="lastname">Enter Username for Message Editing/Updating:</label>
-      <input type="text" class="form-control" id="lastname" placeholder="Enter Username" name="contact_username">
+  <div class="row">
+    <!-- Form Section -->
+    <div class="col-lg-6">
+      <h2>Contact Us Admin Page</h2>
+      <form action="" name="form" method="post">
+        <div class="form-group">
+          <label for="lastname">Enter Username for Message Editing/Updating:</label>
+          <input type="text" class="form-control" id="lastname" placeholder="Enter Username" name="contact_username">
+        </div>
+        <div class="form-group">
+          <label for="message">Enter New Message:</label>
+          <textarea class="form-control" id="message" placeholder="Enter New Message" name="contact_message"></textarea>
+        </div>
+        <button type="submit" name="update" class="btn btn-warning">Update</button>
+        <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="message">Enter New Message:</label>
-      <textarea class="form-control" id="message" placeholder="Enter New Message" name="contact_message"></textarea>
+
+    <!-- Instructions Section -->
+    <div class="col-lg-6">
+      <h3>Admin Instructions</h3>
+      <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+        <ul>
+          <li><strong>Update:</strong> Enter the <b>Username</b> and the <b>New Message</b> to replace the old message. Click <b>Update</b> to save changes.</li>
+          <li><strong>Delete:</strong> Enter the <b>Username</b> to remove their message. Click <b>Delete</b>.</li>
+          <li>Ensure the <b>Username</b> is accurate to avoid errors.</li>
+          <li>Review the table below after performing any action.</li>
+        </ul>
+      </div>
     </div>
-    
-   
-    <button type="submit" name="update" class="btn btn-default">Update</button>
-    <button type="submit" name="delete" class="btn btn-default">Delete</button>
-  </form>
-</div>
-</div>
+  </div>
 
 <div class="col-lg-12">
 
