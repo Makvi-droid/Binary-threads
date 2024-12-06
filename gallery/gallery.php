@@ -2,91 +2,31 @@
 session_start();
 include 'database.php';
 
-$products = array(
-  ["id" => 1, "name" => "Black & White Beat", "price" => 179.99, "img" => "img/hat1.jpg", "description" => "Black & White Beat"],
-  ["id" => 2, "name" => "Blissful Hues", "price" => 159.99, "img" => "img/hat2.jpg", "description" => "Blissful Hues"],
-  ["id" => 3, "name" => "Reggae Rhythm", "price" => 135.99, "img" => "img/hat3.jpg", "description" => "Reggae Rhythm"],
-  ["id" => 4, "name" => "Grape Smoke", "price" => 120.99, "img" => "img/hat4.jpg", "description" => "Grape Smoke"],
-  ["id" => 5, "name" => "Pacific Blues", "price" => 105.99, "img" => "img/hat5.jpg", "description" => "Pacific Blues"],
-  ["id" => 6, "name" => "Peachy Keen", "price" => 99.99, "img" => "img/hat6.jpg", "description" => "Peachy Keen"],
-  ["id" => 7, "name" => "Rustic Warmth", "price" => 199.99, "img" => "img/scarf1.jpg", "description" => "Rustic Warmth"],
-  ["id" => 8, "name" => "Blushed Mocha", "price" => 169.99, "img" => "img/scarf2.jpg", "description" => "Blushed Mocha"],
-  ["id" => 9, "name" => "Midnight Scarlet", "price" => 140.99, "img" => "img/scarf3.jpg", "description" => "Midnight Scarlet"],
-  ["id" => 10, "name" => "Ethereal Beige", "price" => 125.99, "img" => "img/scarf4.jpg", "description" => "Ethereal Beige"],
-  ["id" => 11, "name" => "Cloud Nine", "price" => 110.99, "img" => "img/scarf5.jpg", "description" => "Cloud Nine"],
-  ["id" => 12, "name" => "Dawn Fog", "price" => 99.99, "img" => "img/scarf6.jpg", "description" => "Dawn Fog"],
-  ["id" => 13, "name" => "Flora Flutter Top", "price" => 199.99, "img" => "img/clothes1.jpg", "description" => "Flora Flutter Top"],
-  ["id" => 14, "name" => "Whispering Willow Tee", "price" => 169.99, "img" => "img/clothes2.jpg", "description" => "Whispering Willow Tee"],
-  ["id" => 15, "name" => "Seashell Breeze Halter", "price" => 149.99, "img" => "img/clothes3.jpg", "description" => "Seashell Breeze Halter"],
-  ["id" => 16, "name" => "Autumn Thread Blooms", "price" => 179.99, "img" => "img/clothes4.jpg", "description" => "Autumn Thread Blooms"],
-  ["id" => 17, "name" => "Radiant Weave Top", "price" => 119.99, "img" => "img/clothes5.jpg", "description" => "Radiant Weave Top"],
-  ["id" => 18, "name" => "Pattern Pullover", "price" => 199.99, "img" => "img/clothes6.jpg", "description" => "Pattern Pullover"]
-);
-
+// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['confirmCheckout'])) {
-  // Get form data
-  $fullname = $_POST['fullname'];
-  $contact = $_POST['contact'];
-  $address = $_POST['address'];
-  $region = $_POST['region'];
-  $zip = $_POST['zip'];
-  $payment = $_POST['payment'];
-  $productName = $_POST['product'];
-  $totalAmount = $_POST['totalAmount'];
+    // Sanitize and retrieve form data
+    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
+    $contact = mysqli_real_escape_string($conn, $_POST['contact']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $region = mysqli_real_escape_string($conn, $_POST['region']);
+    $zip = mysqli_real_escape_string($conn, $_POST['zip']);
+    $payment = mysqli_real_escape_string($conn, $_POST['payment']);
+    $product = "NULL";
+    $total = "NULL";
 
-  // Validate required fields
-  if (empty($fullname) || empty($contact) || empty($address) || empty($region) || empty($zip) || empty($payment) || empty($productName) || $totalAmount <= 0) {
-      die("Error: All fields are required.");
-  }
+    // SQL query to insert the data into the "orders" table
+    $sql = "INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total)
+            VALUES ('$fullname', '$contact', '$address', '$region', '$zip', '$payment', '$product', '$total')";
 
-  // Find product details
-  $productDetails = null;
-  foreach ($products as $product) {
-      if (strcasecmp($product['name'], $productName) === 0) {
-          $productDetails = $product;
-          break;
-      }
-  }
-
-  if (!$productDetails) {
-      die("Error: Product not found.");
-  }
-
-  
-  $calculatedTotal = $productDetails['price'] + 50; 
-
-  
-  if (abs($calculatedTotal - $totalAmount) > 0.01) {
-      die("Error: Total amount mismatch. Calculated: $calculatedTotal, Submitted: $totalAmount");
-  }
-
- 
-  try {
-      $stmt = $pdo->prepare("
-          INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total) 
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-      ");
-      $stmt->execute([
-          $fullname,
-          $contact,
-          $address,
-          $region,
-          $zip,
-          $payment,
-          $productDetails['name'],
-          $calculatedTotal
-      ]);
-
-      echo "Order placed successfully!";
-  } catch (PDOException $e) {
-      error_log("Database Error: " . $e->getMessage()); // Log error to server
-      die("Error: Could not complete the order.");
-  }
+    // Execute the query and check for success
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Order placed successfully!'); window.location.href='gallery.php';</script>";
+    } else {
+        echo "<script>alert('Error: Unable to place order. Please try again.');</script>";
+    }
 }
-
-
 ?>
-  
+
 
 
 
