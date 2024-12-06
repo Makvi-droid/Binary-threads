@@ -1,24 +1,47 @@
 <?php
 session_start();
-include 'database.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve and sanitize input data
+    $fullname = isset($_POST['fullname']) ? trim($_POST['fullname']) : '';
+    $contact = isset($_POST['contact']) ? trim($_POST['contact']) : '';
+    $address = isset($_POST['address']) ? trim($_POST['address']) : '';
+    $region = isset($_POST['region']) ? trim($_POST['region']) : '';
+    $zip = isset($_POST['zip']) ? trim($_POST['zip']) : '';
+    $payment = isset($_POST['payment']) ? trim($_POST['payment']) : '';
+    $product = isset($_POST['product']) ? trim($_POST['product']) : '';
+    $total = isset($_POST['total']) ? trim($_POST['total']) : '';
 
+    // Include database connection
+    include('database.php');
 
-if (isset($_POST["confirmCheckout"])) {
-  $fullname = mysqli_real_escape_string($conn, $_POST["fullname"]);
-  $contact = mysqli_real_escape_string($conn, $_POST["contact"]);
-  $address = mysqli_real_escape_string($conn, $_POST["address"]);
-  $region = mysqli_real_escape_string($conn, $_POST["region"]);
-  $zip = mysqli_real_escape_string($conn, $_POST["zip"]);
-  $payment = mysqli_real_escape_string($conn, $_POST["payment"]);
+    // Insert into database
+    $query = "INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
 
-  $query = "INSERT INTO `check_out` (`id`, `fullname`, `contact`, `address`, `region`, `zip`, `payment`, `product`, `total`) 
-            VALUES (NULL, '$fullname', '$contact', '$address', '$region', '$zip','$payment', NULL, NULL)";
-  mysqli_query($conn, $query);
- 
+    if ($stmt) {
+        $stmt->bind_param('ssssssss', $fullname, $contact, $address, $region, $zip, $payment, $product, $total);
+        if ($stmt->execute()) {
+            $_SESSION['order_status'] = "Order successfully added!";
+        } else {
+            $_SESSION['order_status'] = "Error adding order: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        $_SESSION['order_status'] = "Database query failed: " . $conn->error;
+    }
+
+    // Redirect to prevent form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
 }
 
+
+
 ?>
+
+
+
 
 
 
@@ -89,9 +112,10 @@ if (isset($_POST["confirmCheckout"])) {
 
             <!--profile-->
             
-              <button type="button" class="btn btn-warning" id="profile-btn">
+            <button type="button" class="btn btn-warning" id="profile-btn">
               <i class="fa-regular fa-user"></i><span id="profile">
               <?php echo htmlspecialchars($_SESSION['username']); ?></span></button>
+
             
 
       </div>
@@ -779,22 +803,22 @@ if (isset($_POST["confirmCheckout"])) {
                           <label for="regions" class="form-label">Region</label>
                           <select class="form-select" name="region" required>
                             <option selected disabled value="">Choose...</option>
-                            <option value="region_1">Region I - Ilocos</option>
-                            <option value="region_2">Region II - Cagayan Valley</option>
-                            <option value="region_3">Region III - Central Luzon</option>
-                            <option value="region_iv-a">Region IV-A - Calabarzon</option>
-                            <option value="region_iv-b">Region IV-B - MIMAROPA</option>
-                            <option value="region_v">Region V - Bicol</option>
-                            <option value="region_vi">Region VI - Western Visayas</option>
-                            <option value="region_vii">Region VII - Central Visayas</option>
-                            <option value="region_viii">Region VIII - Eastern Visayas</option>
-                            <option value="region_ix">Region IX - Zamboanga Peninsula</option>
-                            <option value="region_x">Region X - Northern Mindanao</option>
-                            <option value="region_xii">Region XII - SOCCSKSARGEN</option>
-                            <option value="region_xii">Region XII - Caraga</option>
-                            <option value="ncr">NCR - National Capital Region</option>
-                            <option value="car">CAR - Cordillera Administrative Region</option>
-                            <option value="region_barmm">BARMM - Bangsamoro Autonomous Region in Muslim Mindanao</option>
+                            <option value="Region I">Region I - Ilocos</option>
+                            <option value="Region II">Region II - Cagayan Valley</option>
+                            <option value="Region III">Region III - Central Luzon</option>
+                            <option value="Region IV-A">Region IV-A - Calabarzon</option>
+                            <option value="Region IV-B">Region IV-B - MIMAROPA</option>
+                            <option value="Region V">Region V - Bicol</option>
+                            <option value="Region VI">Region VI - Western Visayas</option>
+                            <option value="Region VII">Region VII - Central Visayas</option>
+                            <option value="Region VIII">Region VIII - Eastern Visayas</option>
+                            <option value="Region IX">Region IX - Zamboanga Peninsula</option>
+                            <option value="Region X">Region X - Northern Mindanao</option>
+                            <option value="Region XII">Region XII - SOCCSKSARGEN</option>
+                            <option value="Region XII">Region XII - Caraga</option>
+                            <option value="NCR">NCR - National Capital Region</option>
+                            <option value="CAR">CAR - Cordillera Administrative Region</option>
+                            <option value="BARMM">BARMM - Bangsamoro Autonomous Region in Muslim Mindanao</option>
                           </select>
                           <div class="invalid-feedback">
                             Please select a valid region.
@@ -812,21 +836,21 @@ if (isset($_POST["confirmCheckout"])) {
                               <h5><strong>Payment Options:</strong> <span id="paymentOptions"></span></h5>
                               
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="cdo" name="cdo">
+                                <input class="form-check-input" type="radio" name="payment" id="cdo" value="Cash-on-delivery">
                                 <label class="form-check-label" for="cdo">
                                   Cash-on-delivery
                                 </label>
                               </div>
                               
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="online" name="online">
+                                <input class="form-check-input" type="radio" name="payment" id="online" value="Online">
                                 <label class="form-check-label" for="online">
                                   Online
                                 </label>
                               </div>
 
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="card" name="card">
+                                <input class="form-check-input" type="radio" name="payment" id="card" value="Credit/Debit card">
                                 <label class="form-check-label" for="card">
                                   Credit/Debit card
                                 </label>
