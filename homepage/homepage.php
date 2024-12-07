@@ -74,8 +74,8 @@ if (!isset($_SESSION['username'])) {
 
                     <!--profile-->
                     <button type="button" class="btn btn-warning" id="profile-btn">
-                        <i class="fa-regular fa-user"></i>
-                        <span id="name"><?php echo htmlspecialchars($_SESSION['username']); ?></span></button>
+                    <i class="fa-regular fa-user"></i>
+                    <span id="name"><?php echo htmlspecialchars($_SESSION['username']); ?></span></button>
                     
             </div>
         </div>
