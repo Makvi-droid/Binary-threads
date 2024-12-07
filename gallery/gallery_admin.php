@@ -108,20 +108,50 @@ if (isset($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Orders</title>
+    <title>Gallery Admin</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .container { max-width: 1200px; }
-        .form-group { margin-bottom: 1.5rem; }
-        .table th, .table td { padding: 1rem; }
-        .table { margin-top: 2rem; }
-        .alert { margin-top: 1rem; }
-        .btn-group .btn { margin-right: 10px; }
-        .card { box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; margin-bottom: 2rem; }
-        .card-header { background-color: #0069d9; color: white; font-size: 1.25rem; }
-        .card-body { padding: 2rem; }
-        .table th { background-color: #f8f9fa; color: #343a40; }
+        .container { 
+            max-width: 1200px; 
+        }
+
+        .form-group { 
+            margin-bottom: 1.5rem; 
+        }
+
+        .table th, .table td { 
+            padding: 1rem; 
+        }
+
+        .table { 
+            margin-top: 2rem; 
+        }
+
+        .alert { 
+            margin-top: 1rem; 
+        }
+
+        .btn-group .btn { 
+            margin-right: 10px; 
+        }
+
+        .card { 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; margin-bottom: 2rem; 
+        }
+
+        .card-header { 
+            background-color: #0069d9; color: white; font-size: 1.25rem; 
+        }
+
+        .card-body { 
+            padding: 2rem; 
+        }
+
+        .table th { 
+            background-color: #f8f9fa; color: #343a40; 
+        }
+
     </style>
 </head>
 <body>
@@ -146,7 +176,7 @@ if (isset($_GET['edit'])) {
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="order_id">Order ID (Editable)</label>
+                        <label for="order_id">Order ID</label>
                         <input type="text" class="form-control" id="order_id" name="order_id" required value="<?php echo $order_to_edit['id'] ?? ''; ?>">
                     </div>
                     <div class="form-group col-md-6">
