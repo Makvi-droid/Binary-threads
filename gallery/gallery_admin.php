@@ -1,12 +1,11 @@
 <?php
 session_start();
 
-// Include database connection
+
 include('database.php');
 
-// Create (Add new order)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_order'])) {
-    // Retrieve and sanitize input data
+   
     $fullname = isset($_POST['fullname']) ? trim($_POST['fullname']) : '';
     $contact = isset($_POST['contact']) ? trim($_POST['contact']) : '';
     $address = isset($_POST['address']) ? trim($_POST['address']) : '';
@@ -16,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_order'])) {
     $product = isset($_POST['product']) ? trim($_POST['product']) : '';
     $total = isset($_POST['total']) ? trim($_POST['total']) : '';
 
-    // Insert into database
+    
     $query = "INSERT INTO check_out (fullname, contact, address, region, zip, payment, product, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
@@ -33,14 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_order'])) {
     }
 }
 
-// Read (Display orders)
+
 $query = "SELECT * FROM check_out";
 $result = $conn->query($query);
 
-// Edit order (Update order)
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_order'])) {
-    // Retrieve the data
-    $id = $_POST['order_id']; // ID is editable here
+   
+    $id = $_POST['order_id']; 
     $fullname = $_POST['fullname'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
@@ -50,14 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_order'])) {
     $product = $_POST['product'];
     $total = $_POST['total'];
 
-    // Update the order in the database
+    
     $update_query = "UPDATE check_out SET fullname=?, contact=?, address=?, region=?, zip=?, payment=?, product=?, total=? WHERE id=?";
     $stmt = $conn->prepare($update_query);
 
     if ($stmt) {
         $stmt->bind_param('ssssssssi', $fullname, $contact, $address, $region, $zip, $payment, $product, $total, $id);
         if ($stmt->execute()) {
-            // Redirect back to the page to reset the form and show updated data
+            
             $_SESSION['order_status'] = "Order successfully updated!";
             header("Location: ".$_SERVER['PHP_SELF']);
             exit();
@@ -109,7 +108,7 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery Admin</title>
-    <!-- Bootstrap 5 CSS -->
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container { 
