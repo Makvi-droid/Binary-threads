@@ -222,7 +222,7 @@ if (isset($_GET['edit'])) {
                 </div>
 
                 <button type="submit" name="<?php echo $order_to_edit ? 'edit_order' : 'add_order'; ?>" class="btn btn-primary">
-                    <?php echo $order_to_edit ? 'Update Order' : 'Add Order'; ?>
+                    <?php echo $order_to_edit ? 'Update' : 'Add Order'; ?>
                 </button>
             </form>
         </div>
@@ -268,7 +268,7 @@ if (isset($_GET['edit'])) {
     </table>
 </div>
 
-<!-- Bootstrap 5 JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
